@@ -1,5 +1,7 @@
 package pgp.projeto.api.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -61,14 +63,8 @@ public class UserAccountController {
     
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid UserUpdateData dados, Authentication authentication){
-      
-        UserAccount usuarioAutenticado = (UserAccount) authentication.getPrincipal();
-      
-        if (!usuarioAutenticado.getId().equals(dados.id())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity atualizar(@RequestBody @Valid UserUpdateData dados ){
+        
         var usuario = repository.getReferenceById(dados.id());
         usuario.atualizarInformacoes(dados, passwordEncoder);
         
@@ -78,29 +74,18 @@ public class UserAccountController {
     
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity remover(@PathVariable Long id, Authentication authentication) {
-        
-        UserAccount usuarioAutenticado = (UserAccount) authentication.getPrincipal();
-
-        if (!usuarioAutenticado.getId().equals(id)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity remover(@PathVariable UUID id ) {
 
         var usuario = repository.getReferenceById(id);
         repository.delete(usuario);
+
         return ResponseEntity.noContent().build();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity detalhar(@PathVariable Long id,  Authentication authentication){
+    public ResponseEntity detalhar(@PathVariable UUID id  ){
         
-         UserAccount usuarioAutenticado = (UserAccount) authentication.getPrincipal();
-
-         if (!usuarioAutenticado.getId().equals(id)) {
-             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-         }
-
          var usuario = repository.getReferenceById(id);
          return ResponseEntity.ok(new UserDetailsData(usuario));
     }

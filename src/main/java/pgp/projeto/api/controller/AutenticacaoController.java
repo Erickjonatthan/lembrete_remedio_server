@@ -54,16 +54,10 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/recuperar-senha")
-    public ResponseEntity recuperarSenha(@RequestBody @Valid UserUpdateData dados, Authentication authentication) {
+    public ResponseEntity recuperarSenha(@RequestBody @Valid UserUpdateData dados) {
         
-        UserAccount usuarioAutenticado = (UserAccount) authentication.getPrincipal();
-        
-        if (!usuarioAutenticado.getId().equals(dados.id())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-
         UserAccount user = repository.getReferenceById(dados.id());
+        
         if (user == null) {
             return ResponseEntity.badRequest().body("Usuário não encontrado");
         }

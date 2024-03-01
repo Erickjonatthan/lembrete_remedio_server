@@ -1,5 +1,7 @@
 package pgp.projeto.api.infra.security;
 
-public record DadosTokenJWT(String token, Long contaId) {
+import java.util.UUID;
+
+public record DadosTokenJWT(String token, UUID contaId) {
 
 }
