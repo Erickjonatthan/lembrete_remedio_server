@@ -13,9 +13,6 @@ public class IndexController {
     @GetMapping("/")
     public ModelAndView paginaInicial(){
         var modelAndView = new ModelAndView("index");
-        modelAndView.addObject("mensagem", "Bem-vindo ao sistema de gerenciamento de projetos");
-        var alunos = List.of("Aluno 1", "Aluno 2", "Aluno 3");
-        modelAndView.addObject("alunos", alunos);
         return modelAndView;
     }
 }

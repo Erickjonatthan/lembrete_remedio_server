@@ -60,11 +60,13 @@ public class AutenticacaoController {
     @PostMapping
     public ResponseEntity efeturarLogin(@RequestBody @Valid AuthenticationData
     dados){
+
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var authentication = manager.authenticate(authenticationToken);
 
         var tokenJWT = tokenService.gerarToken((UserAccount) authentication.getPrincipal());
         var contaId =  ((UserAccount) authentication.getPrincipal()).getId();
+
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT, contaId));
     }
 
@@ -89,8 +91,6 @@ public class AutenticacaoController {
     }
 
     private String generateRandomPassword() {
-        // Este é um exemplo simples de como gerar uma senha aleatória
-        // Você pode querer usar um método mais seguro e complexo
         Random random = new Random();
         return String.valueOf(random.nextInt(1000000));
     }
