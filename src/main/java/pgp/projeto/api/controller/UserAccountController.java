@@ -1,5 +1,6 @@
 package pgp.projeto.api.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -45,6 +47,16 @@ public class UserAccountController {
 
     @Autowired
     private EmailService emailService;
+
+
+    @GetMapping
+    public ModelAndView paginaCadastro(){
+        var modelAndView = new ModelAndView("index");
+        modelAndView.addObject("mensagem", "Bem-vindo ao sistema de gerenciamento de projetos");
+        var alunos = List.of("Aluno 1", "Aluno 2", "Aluno 3");
+        modelAndView.addObject("alunos", alunos);
+        return modelAndView;
+    }
 
 
     @PostMapping
