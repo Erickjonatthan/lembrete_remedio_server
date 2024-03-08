@@ -3,6 +3,7 @@ package pgp.projeto.api.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,6 +44,10 @@ public class UserAccountController {
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid UserRegistrationData dados, UriComponentsBuilder uriBuilder) {
         
+        if(repository.existsByLogin(dados.email())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("E-mail já cadastrado");
+        }
+
         var usuario = new UserAccount(dados,passwordEncoder);
         repository.save(usuario);
         var uri = uriBuilder.path("/cadastro/{id}").buildAndExpand(usuario.getId()).toUri();
