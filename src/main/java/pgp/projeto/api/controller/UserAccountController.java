@@ -31,10 +31,6 @@ import pgp.projeto.api.domain.usuario.authentication.UserRepository;
 import pgp.projeto.api.domain.usuario.email.EmailService;
 
 
-
-
-
-
 @RestController
 @RequestMapping("/cadastro")
 public class UserAccountController {
@@ -47,17 +43,6 @@ public class UserAccountController {
 
     @Autowired
     private EmailService emailService;
-
-
-    @GetMapping
-    public ModelAndView paginaCadastro(){
-        var modelAndView = new ModelAndView("index");
-        modelAndView.addObject("mensagem", "Bem-vindo ao sistema de gerenciamento de projetos");
-        var alunos = List.of("Aluno 1", "Aluno 2", "Aluno 3");
-        modelAndView.addObject("alunos", alunos);
-        return modelAndView;
-    }
-
 
     @PostMapping
     @Transactional
